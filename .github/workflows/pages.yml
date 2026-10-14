@@ -1,0 +1,46 @@
+name: Publish approved privacy policy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: privacy-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Require a complete policy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          policy = Path('site/index.html')
+          if not policy.is_file():
+              raise SystemExit('Add the approved final policy before deployment.')
+          text = policy.read_text(encoding='utf-8')
+          if not re.search(r'privacy\s+policy', text, re.I):
+              raise SystemExit('The policy must be clearly labeled.')
+          if re.search(r'\bdraft\b|TO BE CONFIRMED|REVIEW REQUIRED|\[[^\]]*REQUIRED[^\]]*\]', text, re.I):
+              raise SystemExit('An unfinished policy must not be deployed.')
+          if not re.search(r'<(?:a|p)[^>]*>.*(?:contact|privacy inquiries)', text, re.I | re.S):
+              raise SystemExit('Verify the policy includes its public privacy contact.')
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - name: Deploy approved policy
+        id: deployment
+        uses: actions/deploy-pages@v4
