@@ -1,8 +1,12 @@
 # Odd Alliance privacy-policy hosting
 
-This public repository is reserved for the approved Odd Alliance privacy policy. It contains no game source, signing keys, personal email addresses, or unfinished policy claims.
+This public repository contains the approved Odd Alliance privacy policy in `site/index.html`. It contains no game source, signing keys, private email addresses, or credentials.
 
-No policy has been published yet. Developer identity and a public support/privacy contact are still being confirmed, along with the application's complete SDK data practices.
+Developer: **Jared Robinson / gameplaycomesfirst**. Public support/privacy contact: **gameplaycomesfirst.support@gmail.com**.
+
+Policy URL: https://jaredrobinson-gameplaycomesfirst.github.io/oddalliance-privacy/
+
+Publication uses the manual GitHub Pages workflow. Verify its successful deployment and anonymous HTTPS access before submitting the URL to Google Play.
 
 ## Publish after approval
 
